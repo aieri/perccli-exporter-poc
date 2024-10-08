@@ -1,0 +1,25 @@
+name: perccli-exporter
+base: core24
+version: '7.2313.0000.0000'
+summary: A perccli exporter snap prototype
+description: |
+  This is a PoC to validate the feasibility of injecting binaries within the snap
+  confinement boundary at runtime
+
+grade: devel # must be 'stable' to release into candidate/stable channels
+confinement: strict # use 'strict' once you have the right plugs and slots
+
+apps:
+  perccli:
+    command: bin/perccli_wrapper.sh
+    plugs:
+      - block-devices
+      - hardware-observe
+
+parts:
+  wrapper:
+    plugin: dump
+    source: snap/local
+    organize:
+      perccli_wrapper.sh: bin/
+    stage-packages: [coreutils]
